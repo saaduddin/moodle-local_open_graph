@@ -1,0 +1,114 @@
+<?php
+defined('MOODLE_INTERNAL') || die();
+
+function local_open_graph_get_course_image($context, $filearea) {
+    $fs = get_file_storage();
+    $files = $fs->get_area_files($context->id, 'course', $filearea, 0, 'filename', false);
+
+    foreach ($files as $file) {
+        if ($file->is_valid_image()) {
+            return moodle_url::make_pluginfile_url(
+                $file->get_contextid(),
+                $file->get_component(),
+                $file->get_filearea(),
+                null,
+                $file->get_filepath(),
+                $file->get_filename()
+            );
+        }
+    }
+
+    return null;
+}
+
+function local_open_graph_before_http_headers() {
+    global $PAGE, $SITE, $COURSE, $CFG;
+
+    if (!$PAGE->has_set_url()) {
+        return;
+    }
+
+    // Cache setup
+    $cache = cache::make('local_open_graph', 'opengraphtags');
+    $cachekey = 'og_' . sha1($PAGE->url->out_as_local_url(false));
+
+    if ($cachedtags = $cache->get($cachekey)) {
+        $CFG->additionalhtmlhead .= $cachedtags;
+        return;
+    }
+
+    // Defaults
+    $url = $PAGE->url->out(false);
+    $sitename = format_string($SITE->fullname);
+    $title = format_string($PAGE->title);
+    $description = get_config('local_open_graph', 'defaultdescription') ?: format_string($SITE->fullname);
+    $defaultimageurl = new moodle_url('/local/open_graph/default-image.png');
+    $imageurl = $defaultimageurl;
+    $ogtype = 'website';
+
+    // Course-specific logic
+    if ($PAGE->context->contextlevel == CONTEXT_COURSE || 
+        ($PAGE->context->contextlevel == CONTEXT_MODULE && isset($COURSE->id) && $COURSE->id > 1)) {
+
+        $title = format_string($COURSE->fullname);
+        $context = context_course::instance($COURSE->id);
+
+        if (!empty($COURSE->summary)) {
+            $rawsummary = format_text($COURSE->summary, FORMAT_HTML, ['context' => $context]);
+            $strippedsummary = trim(strip_tags($rawsummary));
+            $shortdesc = shorten_text($strippedsummary, 200);
+            $description = $shortdesc . (strlen($shortdesc) < strlen($strippedsummary) ? '...' : '');
+        }
+
+        $img = local_open_graph_get_course_image($context, 'overviewfiles');
+        if ($img) {
+            $imageurl = $img;
+        } else {
+            $img = local_open_graph_get_course_image($context, 'summary');
+            if ($img) {
+                $imageurl = $img;
+            }
+        }
+
+        if (isset($PAGE->cm)) {
+            $modname = $PAGE->cm->modname ?? '';
+            if (in_array($modname, ['forum', 'glossary', 'page', 'book'])) {
+                $ogtype = 'article';
+            } elseif ($modname === 'url' && strpos($PAGE->cm->url, 'youtube.com') !== false) {
+                $ogtype = 'video';
+            } elseif ($modname === 'media') {
+                $ogtype = 'video';
+            }
+        } elseif (!empty($COURSE->summary) && preg_match('/<iframe.*youtube\.com/', $COURSE->summary)) {
+            $ogtype = 'video';
+        }
+    }
+
+    // Sanitize
+    $title = s($title);
+    $description = s($description);
+    $url = s($url);
+    $imageurl = s($imageurl->out(false));
+    $sitename = s($sitename);
+    $ogtype = s($ogtype);
+
+    // Build Open Graph meta
+    $ogmeta = "<meta property=\"og:title\" content=\"$title\" />\n";
+    $ogmeta .= "<meta property=\"og:description\" content=\"$description\" />\n";
+    $ogmeta .= "<meta property=\"og:url\" content=\"$url\" />\n";
+    $ogmeta .= "<meta property=\"og:image\" content=\"$imageurl\" />\n";
+    $ogmeta .= "<meta property=\"og:site_name\" content=\"$sitename\" />\n";
+    $ogmeta .= "<meta property=\"og:type\" content=\"$ogtype\" />\n";
+
+    // Add optional Twitter tags
+    $ogmeta .= "<meta name=\"twitter:card\" content=\"summary_large_image\" />\n";
+    $ogmeta .= "<meta name=\"twitter:title\" content=\"$title\" />\n";
+    $ogmeta .= "<meta name=\"twitter:description\" content=\"$description\" />\n";
+    $ogmeta .= "<meta name=\"twitter:image\" content=\"$imageurl\" />\n";
+
+    // Cache it
+    $cache->set($cachekey, $ogmeta);
+
+    // Add to page head
+    $CFG->additionalhtmlhead .= $ogmeta;
+}
