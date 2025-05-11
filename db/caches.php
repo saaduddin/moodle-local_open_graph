@@ -24,6 +24,6 @@ $definitions = [
     'opengraphtags' => [
         'mode' => cache_store::MODE_APPLICATION,
         'simplekeys' => true,
-        'ttl' => 3600, // cache lifetime in seconds
-    ]
+        'ttl' => 3600, // Cache lifetime in seconds.
+    ],
 ];
