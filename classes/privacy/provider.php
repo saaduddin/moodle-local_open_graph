@@ -1,4 +1,6 @@
- <?php
+<?php
+namespace local_open_graph\privacy;
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -17,8 +19,6 @@
 // @copyright 2025 Saad Uddin
 // @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 // @package   local_open_graph
-
-namespace local_open_graph\privacy;
 
 class provider implements
     // This plugin does not store any personal user data.
