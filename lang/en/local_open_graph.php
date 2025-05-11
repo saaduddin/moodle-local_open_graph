@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 //
 // @copyright 2025 Saad Uddin
-// @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+// @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
 // @package   local_open_graph
 
 $string['pluginname'] = 'Open Graph';
