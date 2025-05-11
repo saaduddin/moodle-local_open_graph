@@ -13,10 +13,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-//
-// @copyright 2025 Saad Uddin
-// @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
-// @package   local_open_graph
+
+/**
+ * Plugin settings
+ *
+ * @package   local_open_graph
+ * @copyright 2025 Saad Uddin
+ * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
+ */
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -26,7 +30,7 @@ if ($hassiteconfig) {
         'local_open_graph/defaultdescription',
         get_string('defaultdescription', 'local_open_graph'),
         get_string('defaultdescription_desc', 'local_open_graph'),
-        'A Moodle site using Open Graph'
+        'A Moodle site using Open Graph.'
     ));
     $ADMIN->add('localplugins', $settings);
 }

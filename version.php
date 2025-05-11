@@ -13,13 +13,17 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-//
-// @copyright 2025 Saad Uddin
-// @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
-// @package   local_open_graph
+
+/**
+ * Version information for local_open_graph.
+ *
+ * @package   local_open_graph
+ * @copyright 2025 Saad Uddin
+ * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
+ */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_open_graph';
 $plugin->version   = 2025051100;
-$plugin->requires  = 2022041900; // Moodle 4.0+ required
+$plugin->requires  = 2022041900; // Moodle 4.0+ required.

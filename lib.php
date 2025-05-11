@@ -13,13 +13,22 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-//
-// @copyright 2025 Saad Uddin
-// @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
-// @package   local_open_graph
 
-defined('MOODLE_INTERNAL') || die();
+/**
+ * Open Graph implementation for Moodle
+ *
+ * @package   local_open_graph
+ * @copyright 2025 Saad Uddin
+ * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
+ */
 
+/**
+ * Get course image URL from file areas
+ *
+ * @param context $context The context object
+ * @param string $filearea The file area to search in
+ * @return moodle_url|null URL to the image or null if none found
+ */
 function local_open_graph_get_course_image($context, $filearea) {
     $fs = get_file_storage();
     $files = $fs->get_area_files($context->id, 'course', $filearea, 0, 'filename', false);
@@ -40,6 +49,10 @@ function local_open_graph_get_course_image($context, $filearea) {
     return null;
 }
 
+/**
+ * Hook called before HTTP headers are sent
+ * Adds Open Graph meta tags to the page head
+ */
 function local_open_graph_before_http_headers() {
     global $PAGE, $SITE, $COURSE, $CFG;
 
@@ -47,7 +60,7 @@ function local_open_graph_before_http_headers() {
         return;
     }
 
-    // Cache setup
+    // Cache setup.
     $cache = cache::make('local_open_graph', 'opengraphtags');
     $cachekey = 'og_' . sha1($PAGE->url->out_as_local_url(false));
 
@@ -56,7 +69,7 @@ function local_open_graph_before_http_headers() {
         return;
     }
 
-    // Defaults
+    // Defaults.
     $url = $PAGE->url->out(false);
     $sitename = format_string($SITE->fullname);
     $title = format_string($PAGE->title);
@@ -65,7 +78,7 @@ function local_open_graph_before_http_headers() {
     $imageurl = $defaultimageurl;
     $ogtype = 'website';
 
-    // Course-specific logic
+    // Course-specific logic.
     if ($PAGE->context->contextlevel == CONTEXT_COURSE || 
         ($PAGE->context->contextlevel == CONTEXT_MODULE && isset($COURSE->id) && $COURSE->id > 1)) {
 
@@ -82,28 +95,25 @@ function local_open_graph_before_http_headers() {
         $img = local_open_graph_get_course_image($context, 'overviewfiles');
         if ($img) {
             $imageurl = $img;
-        } else {
-            $img = local_open_graph_get_course_image($context, 'summary');
-            if ($img) {
-                $imageurl = $img;
-            }
+        } else if ($img = local_open_graph_get_course_image($context, 'summary')) {
+            $imageurl = $img;
         }
 
         if (isset($PAGE->cm)) {
             $modname = $PAGE->cm->modname ?? '';
             if (in_array($modname, ['forum', 'glossary', 'page', 'book'])) {
                 $ogtype = 'article';
-            } elseif ($modname === 'url' && strpos($PAGE->cm->url, 'youtube.com') !== false) {
+            } else if ($modname === 'url' && strpos($PAGE->cm->url, 'youtube.com') !== false) {
                 $ogtype = 'video';
-            } elseif ($modname === 'media') {
+            } else if ($modname === 'media') {
                 $ogtype = 'video';
             }
-        } elseif (!empty($COURSE->summary) && preg_match('/<iframe.*youtube\.com/', $COURSE->summary)) {
+        } else if (!empty($COURSE->summary) && preg_match('/<iframe.*youtube\.com/', $COURSE->summary)) {
             $ogtype = 'video';
         }
     }
 
-    // Sanitize
+    // Sanitize.
     $title = s($title);
     $description = s($description);
     $url = s($url);
@@ -111,7 +121,7 @@ function local_open_graph_before_http_headers() {
     $sitename = s($sitename);
     $ogtype = s($ogtype);
 
-    // Build Open Graph meta
+    // Build Open Graph meta.
     $ogmeta = "<meta property=\"og:title\" content=\"$title\" />\n";
     $ogmeta .= "<meta property=\"og:description\" content=\"$description\" />\n";
     $ogmeta .= "<meta property=\"og:url\" content=\"$url\" />\n";
@@ -119,15 +129,15 @@ function local_open_graph_before_http_headers() {
     $ogmeta .= "<meta property=\"og:site_name\" content=\"$sitename\" />\n";
     $ogmeta .= "<meta property=\"og:type\" content=\"$ogtype\" />\n";
 
-    // Add optional Twitter tags
+    // Add optional Twitter tags.
     $ogmeta .= "<meta name=\"twitter:card\" content=\"summary_large_image\" />\n";
     $ogmeta .= "<meta name=\"twitter:title\" content=\"$title\" />\n";
     $ogmeta .= "<meta name=\"twitter:description\" content=\"$description\" />\n";
     $ogmeta .= "<meta name=\"twitter:image\" content=\"$imageurl\" />\n";
 
-    // Cache it
+    // Cache it.
     $cache->set($cachekey, $ogmeta);
 
-    // Add to page head
+    // Add to page head.
     $CFG->additionalhtmlhead .= $ogmeta;
 }
