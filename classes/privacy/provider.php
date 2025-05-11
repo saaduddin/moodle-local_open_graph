@@ -14,22 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Privacy API implementation for local_open_graph.
- *
- * @package   local_open_graph
- * @copyright 2025 Saad Uddin
- * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
- */
-
 namespace local_open_graph\privacy;
 
 /**
  * Provider class for privacy API.
  *
- * @copyright 2025 Saad Uddin
- * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
+ * @package    local_open_graph
+ * @copyright  2025 Saad Uddin
+ * @license    https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
  */
+
 class provider implements
     // This plugin does not store any personal user data.
     \core_privacy\local\metadata\null_provider {
