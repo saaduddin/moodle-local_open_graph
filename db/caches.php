@@ -15,11 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Cache definitions for local_open_graph plugin.
+ * Cache definitions for the Open Graph plugin.
  *
- * @package   local_open_graph
- * @copyright 2025 Saad Uddin
- * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
+ * @package    local_open_graph
+ * @copyright  2025 Saad Uddin
+ * @license    https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -28,6 +28,7 @@ $definitions = [
     'opengraphtags' => [
         'mode' => cache_store::MODE_APPLICATION,
         'simplekeys' => true,
-        'ttl' => 3600, // Cache lifetime in seconds (1 hour).
+        // Cache lifetime is set to one hour.
+        'ttl' => 3600,
     ],
 ];
