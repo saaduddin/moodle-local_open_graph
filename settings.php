@@ -34,5 +34,15 @@ if ($hassiteconfig) {
             'A Moodle site using Open Graph.'
         )
     );
+    $settings->add(
+        new admin_setting_configstoredfile(
+            'local_open_graph/defaultimage',
+            get_string('defaultimage', 'local_open_graph'),
+            get_string('defaultimage_desc', 'local_open_graph'),
+            'defaultimage',
+            0,
+            array('maxfiles' => 1, 'accepted_types' => array('image'))
+        )
+    );
     $ADMIN->add('localplugins', $settings);
 }

@@ -50,9 +50,28 @@ class callbacks {
         $sitename = format_string($SITE->fullname);
         $title = format_string($PAGE->title);
         $description = get_config('local_open_graph', 'defaultdescription') ?: format_string($SITE->fullname);
-        $defaultimageurl = new \moodle_url('/local/open_graph/default-image.png');
-        $imageurl = $defaultimageurl;
+        $imageurl = new \moodle_url('/local/open_graph/default-image.png');
         $ogtype = 'website';
+
+        // Fetch the default OG image from settings.
+        $defaultimageurl = null;
+        $defaultimage = get_config('local_open_graph', 'defaultimage');
+        if ($defaultimage) {
+            $fs = get_file_storage();
+            $context = \context_system::instance();
+            $files = $fs->get_area_files($context->id, 'local_open_graph', 'defaultimage', 0, 'itemid, filepath, filename', false);
+            if (!empty($files)) {
+                $file = reset($files);
+                $defaultimageurl = moodle_url::make_pluginfile_url(
+                    $file->get_contextid(),
+                    $file->get_component(),
+                    $file->get_filearea(),
+                    $file->get_itemid(),
+                    $file->get_filepath(),
+                    $file->get_filename()
+                )->out();
+            }
+        }
 
         // Course-specific logic.
         if ($PAGE->context->contextlevel == CONTEXT_COURSE
@@ -111,6 +130,11 @@ class callbacks {
         $ogmeta .= "<meta name=\"twitter:title\" content=\"$title\" />\n";
         $ogmeta .= "<meta name=\"twitter:description\" content=\"$description\" />\n";
         $ogmeta .= "<meta name=\"twitter:image\" content=\"$imageurl\" />\n";
+
+        // Use the default OG image if no specific image is set.
+        if ($defaultimageurl) {
+            $hook->add_meta_tag('og:image', $defaultimageurl);
+        }
 
         // Cache it.
         $cache->set($cachekey, $ogmeta);
