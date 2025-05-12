@@ -22,10 +22,12 @@
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 $callbacks = [
     [
         'hook' => \core\hook\output\before_http_headers::class,
         'callback' => [\local_open_graph\callbacks::class, 'before_http_headers'],
-        'priority' => 500, // Medium priority
+        'priority' => 500, // Medium priority.
     ],
 ];
