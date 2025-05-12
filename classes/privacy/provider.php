@@ -23,7 +23,6 @@ namespace local_open_graph\privacy;
  * @copyright  2025 Saad Uddin
  * @license    https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
  */
-
 class provider implements
     // This plugin does not store any personal user data.
     \core_privacy\local\metadata\null_provider {

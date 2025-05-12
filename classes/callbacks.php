@@ -23,7 +23,6 @@ namespace local_open_graph;
  * @copyright 2025 Saad Uddin
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
  */
-
 class callbacks {
     /**
      * Add Open Graph meta tags to the page head
