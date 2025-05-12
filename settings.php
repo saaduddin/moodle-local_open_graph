@@ -41,7 +41,7 @@ if ($hassiteconfig) {
             get_string('defaultimage_desc', 'local_open_graph'),
             'defaultimage',
             0,
-            array('maxfiles' => 1, 'accepted_types' => array('image'))
+            ['maxfiles' => 1, 'accepted_types' => ['image']]
         )
     );
     $ADMIN->add('localplugins', $settings);
