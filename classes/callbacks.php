@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace local_open_graph;
+
 /**
  * Hook callbacks for Open Graph implementation for Moodle
  *
@@ -21,10 +23,6 @@
  * @copyright 2025 Saad Uddin
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
  */
-
-namespace local_open_graph;
-
-defined('MOODLE_INTERNAL') || die();
 
 class callbacks {
     /**

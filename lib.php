@@ -26,7 +26,6 @@
  * Legacy callback for Moodle versions before 4.3
  */
 function local_open_graph_before_http_headers() {
-    // In Moodle 4.3+ this will be ignored if hook callback is registered
     if (!class_exists('\core\hook\manager')) {
         require_once(__DIR__ . '/classes/callbacks.php');
         \local_open_graph\callbacks::before_http_headers(new \stdClass());
