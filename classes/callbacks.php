@@ -23,15 +23,13 @@ namespace local_open_graph;
  * @copyright 2025 Saad Uddin
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
  */
-class callbacks
-{
+class callbacks {
     /**
      * Add Open Graph meta tags to the page head
      *
      * @param \core\hook\output\before_http_headers $hook
      */
-    public static function before_http_headers(\core\hook\output\before_http_headers $hook): void
-    {
+    public static function before_http_headers(\core\hook\output\before_http_headers $hook): void {
         global $PAGE, $SITE, $COURSE, $CFG;
 
         if (!$PAGE->has_set_url()) {
@@ -57,7 +55,7 @@ class callbacks
         $ogtype = 'website';
 
         // Course-specific logic.
-        if ($PAGE->context->contextlevel == CONTEXT_COURSE 
+        if ($PAGE->context->contextlevel == CONTEXT_COURSE
             || ($PAGE->context->contextlevel == CONTEXT_MODULE && isset($COURSE->id) && $COURSE->id > 1)
         ) {
 
@@ -128,8 +126,7 @@ class callbacks
      * @param  string   $filearea The file area to search in
      * @return \moodle_url|null URL to the image or null if none found
      */
-    private static function get_course_image($context, $filearea)
-    {
+    private static function get_course_image($context, $filearea) {
         $fs = get_file_storage();
         $files = $fs->get_area_files($context->id, 'course', $filearea, 0, 'filename', false);
 
