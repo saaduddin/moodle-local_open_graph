@@ -17,9 +17,9 @@
 /**
  * Cache definitions for the Open Graph plugin.
  *
- * @package    local_open_graph
- * @copyright  2025 Saad Uddin
- * @license    https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
+ * @package   local_open_graph
+ * @copyright 2025 Saad Uddin
+ * @license   https://www.gnu.org/licenses/gpl-3.0.html GNU GPL v3
  */
 
 defined('MOODLE_INTERNAL') || die();

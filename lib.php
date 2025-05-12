@@ -25,9 +25,10 @@
 /**
  * Legacy callback for Moodle versions before 4.3
  */
-function local_open_graph_before_http_headers() {
+function local_open_graph_before_http_headers()
+{
     if (!class_exists('\core\hook\manager')) {
-        require_once(__DIR__ . '/classes/callbacks.php');
+        include_once __DIR__ . '/classes/callbacks.php';
         \local_open_graph\callbacks::before_http_headers(new \stdClass());
     }
 }
