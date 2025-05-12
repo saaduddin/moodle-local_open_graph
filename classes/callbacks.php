@@ -107,7 +107,7 @@ class callbacks {
         $ogmeta .= "<meta property=\"og:type\" content=\"$ogtype\" />\n";
 
         // Add optional Twitter tags.
-        $ogmeta .= "<meta name=\"twitter:card\" content=\"summary_large_image\" />\n";
+        $ogmeta .= "\n<meta name=\"twitter:card\" content=\"summary_large_image\" />\n";
         $ogmeta .= "<meta name=\"twitter:title\" content=\"$title\" />\n";
         $ogmeta .= "<meta name=\"twitter:description\" content=\"$description\" />\n";
         $ogmeta .= "<meta name=\"twitter:image\" content=\"$imageurl\" />\n";
