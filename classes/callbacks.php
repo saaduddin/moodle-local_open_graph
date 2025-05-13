@@ -131,12 +131,14 @@ class callbacks {
         $ogmeta .= "<meta property=\"og:site_name\" content=\"$sitename\" />\n";
         $ogmeta .= "<meta property=\"og:type\" content=\"$ogtype\" />\n";
 
-        // Add optional Twitter tags.
-        $ogmeta .= "\n<meta name=\"twitter:card\" content=\"summary_large_image\" />\n";
-        $ogmeta .= "<meta name=\"twitter:title\" content=\"$title\" />\n";
-        $ogmeta .= "<meta name=\"twitter:description\" content=\"$description\" />\n";
-        if ($imageurl) {
-            $ogmeta .= "<meta name=\"twitter:image\" content=\"$imageurl\" />\n";
+        // Add Twitter tags if enabled
+        if (get_config('local_open_graph', 'enabletwittertags')) {
+            $ogmeta .= "\n<meta name=\"twitter:card\" content=\"summary_large_image\" />\n";
+            $ogmeta .= "<meta name=\"twitter:title\" content=\"$title\" />\n";
+            $ogmeta .= "<meta name=\"twitter:description\" content=\"$description\" />\n";
+            if ($imageurl) {
+                $ogmeta .= "<meta name=\"twitter:image\" content=\"$imageurl\" />\n";
+            }
         }
 
         // Cache it.

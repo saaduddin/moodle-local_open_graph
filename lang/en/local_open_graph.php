@@ -29,3 +29,5 @@ $string['defaultimage'] = 'Default image';
 $string['defaultimage_desc'] = 'This image will be used as the default Open Graph image if no specific one is set.';
 $string['privacy:metadata'] = 'The Open Graph plugin does not store any personal data.';
 $string['cachedef_opengraphtags'] = 'Cache for Open Graph tags.';
+$string['enabletwittertags'] = 'Enable Twitter meta tags';
+$string['enabletwittertags_desc'] = 'Enable or disable the inclusion of Twitter meta tags in the Open Graph plugin.';

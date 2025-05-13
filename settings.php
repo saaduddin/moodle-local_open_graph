@@ -44,5 +44,13 @@ if ($hassiteconfig) {
             ['maxfiles' => 1, 'accepted_types' => ['image']]
         )
     );
+    $settings->add(
+        new admin_setting_configcheckbox(
+            'local_open_graph/enabletwittertags',
+            get_string('enabletwittertags', 'local_open_graph'),
+            get_string('enabletwittertags_desc', 'local_open_graph'),
+            1
+        )
+    );
     $ADMIN->add('localplugins', $settings);
 }
