@@ -32,7 +32,8 @@ class callbacks {
     public static function before_http_headers(\core\hook\output\before_http_headers $hook): void {
         global $PAGE, $SITE, $COURSE, $CFG;
 
-        if (!$PAGE->has_set_url()) {
+        // Only proceed if page URL is set and we're not in admin pages.
+        if (!$PAGE->has_set_url() || strpos($PAGE->url->get_path(), '/admin/') !== false) {
             return;
         }
 
