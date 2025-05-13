@@ -44,7 +44,7 @@ function local_open_graph_before_http_headers() {
  * @param array $options additional options affecting the file serving
  * @return bool false if the file not found, just send the file otherwise
  */
-function local_open_graph_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
+function local_open_graph_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
     if ($context->contextlevel != CONTEXT_SYSTEM) {
         return false;
     }

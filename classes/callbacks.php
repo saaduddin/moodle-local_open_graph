@@ -113,7 +113,7 @@ class callbacks {
         $title = s($title);
         $description = s($description);
         $url = s($url);
-        // Use default image if no specific image is set
+        // Use default image if no specific image is set.
         if (!$imageurl && $defaultimageurl) {
             $imageurl = $defaultimageurl;
         }
@@ -131,7 +131,7 @@ class callbacks {
         $ogmeta .= "<meta property=\"og:site_name\" content=\"$sitename\" />\n";
         $ogmeta .= "<meta property=\"og:type\" content=\"$ogtype\" />\n";
 
-        // Add Twitter tags if enabled
+        // Add Twitter tags if enabled.
         if (get_config('local_open_graph', 'enabletwittertags')) {
             $ogmeta .= "\n<meta name=\"twitter:card\" content=\"summary_large_image\" />\n";
             $ogmeta .= "<meta name=\"twitter:title\" content=\"$title\" />\n";

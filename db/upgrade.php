@@ -12,7 +12,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Plugin upgrade steps are defined here.
@@ -35,19 +35,19 @@ function xmldb_local_open_graph_upgrade($oldversion) {
     if ($oldversion < 2025051300) {
         $fs = get_file_storage();
         $context = context_system::instance();
-        
+
         // Check if we already have a default image.
         $files = $fs->get_area_files($context->id, 'local_open_graph', 'defaultimage', 0, 'itemid, filepath, filename', false);
-        
+
         if (empty($files)) {
-            $fileinfo = array(
+            $fileinfo = [
                 'contextid' => $context->id,
                 'component' => 'local_open_graph',
                 'filearea' => 'defaultimage',
                 'itemid' => 0,
                 'filepath' => '/',
-                'filename' => 'default-image.png'
-            );
+                'filename' => 'default-image.png',
+            ];
 
             // Get the default image content from the plugin directory.
             $sourcepath = __DIR__ . '/../default-image.png';
