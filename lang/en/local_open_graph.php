@@ -25,7 +25,7 @@
 $string['pluginname'] = 'Open Graph';
 $string['defaultdescription'] = 'Default description';
 $string['defaultdescription_desc'] = 'This description will be used if no specific one is set.';
-$string['defaultimage'] = 'Default OG image';
+$string['defaultimage'] = 'Default image';
 $string['defaultimage_desc'] = 'This image will be used as the default Open Graph image if no specific one is set.';
 $string['privacy:metadata'] = 'The Open Graph plugin does not store any personal data.';
 $string['cachedef_opengraphtags'] = 'Cache for Open Graph tags.';

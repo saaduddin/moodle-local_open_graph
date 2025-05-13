@@ -50,10 +50,10 @@ class callbacks {
         $sitename = format_string($SITE->fullname);
         $title = format_string($PAGE->title);
         $description = get_config('local_open_graph', 'defaultdescription') ?: format_string($SITE->fullname);
-        $imageurl = new \moodle_url('/local/open_graph/default-image.png');
+        $imageurl = null;
         $ogtype = 'website';
 
-        // Fetch the default OG image from settings.
+        // Fetch the default image from settings.
         $defaultimageurl = null;
         $defaultimage = get_config('local_open_graph', 'defaultimage');
         if ($defaultimage) {
@@ -113,7 +113,11 @@ class callbacks {
         $title = s($title);
         $description = s($description);
         $url = s($url);
-        $imageurl = s($imageurl->out(false));
+        // Use default image if no specific image is set
+        if (!$imageurl && $defaultimageurl) {
+            $imageurl = $defaultimageurl;
+        }
+        $imageurl = s($imageurl);
         $sitename = s($sitename);
         $ogtype = s($ogtype);
 
@@ -121,7 +125,9 @@ class callbacks {
         $ogmeta = "<meta property=\"og:title\" content=\"$title\" />\n";
         $ogmeta .= "<meta property=\"og:description\" content=\"$description\" />\n";
         $ogmeta .= "<meta property=\"og:url\" content=\"$url\" />\n";
-        $ogmeta .= "<meta property=\"og:image\" content=\"$imageurl\" />\n";
+        if ($imageurl) {
+            $ogmeta .= "<meta property=\"og:image\" content=\"$imageurl\" />\n";
+        }
         $ogmeta .= "<meta property=\"og:site_name\" content=\"$sitename\" />\n";
         $ogmeta .= "<meta property=\"og:type\" content=\"$ogtype\" />\n";
 
@@ -129,11 +135,8 @@ class callbacks {
         $ogmeta .= "\n<meta name=\"twitter:card\" content=\"summary_large_image\" />\n";
         $ogmeta .= "<meta name=\"twitter:title\" content=\"$title\" />\n";
         $ogmeta .= "<meta name=\"twitter:description\" content=\"$description\" />\n";
-        $ogmeta .= "<meta name=\"twitter:image\" content=\"$imageurl\" />\n";
-
-        // Use the default OG image if no specific image is set.
-        if ($defaultimageurl) {
-            $ogmeta .= "<meta property=\"og:image\" content=\"$defaultimageurl\" />\n";
+        if ($imageurl) {
+            $ogmeta .= "<meta name=\"twitter:image\" content=\"$imageurl\" />\n";
         }
 
         // Cache it.
