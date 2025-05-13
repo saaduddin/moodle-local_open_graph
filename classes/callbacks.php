@@ -62,7 +62,7 @@ class callbacks {
             $files = $fs->get_area_files($context->id, 'local_open_graph', 'defaultimage', 0, 'itemid, filepath, filename', false);
             if (!empty($files)) {
                 $file = reset($files);
-                $defaultimageurl = moodle_url::make_pluginfile_url(
+                $defaultimageurl = \moodle_url::make_pluginfile_url(
                     $file->get_contextid(),
                     $file->get_component(),
                     $file->get_filearea(),
@@ -133,7 +133,7 @@ class callbacks {
 
         // Use the default OG image if no specific image is set.
         if ($defaultimageurl) {
-            $hook->add_meta_tag('og:image', $defaultimageurl);
+            $ogmeta .= "<meta property=\"og:image\" content=\"$defaultimageurl\" />\n";
         }
 
         // Cache it.
