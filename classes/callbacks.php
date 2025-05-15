@@ -122,8 +122,10 @@ class callbacks {
         $sitename = s($sitename);
         $ogtype = s($ogtype);
 
+        $ogmeta = "<!-- BEGIN: Open Graph Meta Tags Plugin -->\n";
+
         // Build Open Graph meta.
-        $ogmeta = "<meta property=\"og:title\" content=\"$title\" />\n";
+        $ogmeta .= "<meta property=\"og:title\" content=\"$title\" />\n";
         $ogmeta .= "<meta property=\"og:description\" content=\"$description\" />\n";
         $ogmeta .= "<meta property=\"og:url\" content=\"$url\" />\n";
         if ($imageurl) {
@@ -141,6 +143,8 @@ class callbacks {
                 $ogmeta .= "<meta name=\"twitter:image\" content=\"$imageurl\" />\n";
             }
         }
+
+        $ogmeta = "<!-- END: Open Graph Meta Tags Plugin -->\n";
 
         // Cache it.
         $cache->set($cachekey, $ogmeta);
