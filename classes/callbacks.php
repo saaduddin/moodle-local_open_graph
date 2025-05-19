@@ -144,7 +144,7 @@ class callbacks {
             }
         }
 
-        $ogmeta = "<!-- END: Open Graph Meta Tags Plugin -->\n";
+        $ogmeta = ."<!-- END: Open Graph Meta Tags Plugin -->\n";
 
         // Cache it.
         $cache->set($cachekey, $ogmeta);
